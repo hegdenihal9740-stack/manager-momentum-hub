@@ -58,7 +58,7 @@ function Store({ c }) {
 
 export default function IndustryScene({ kind, colors, paused }) {
   const S = kind === "edu" ? Campus : kind === "startup" ? Launch : Store;
-  return <Canvas resize={{ offsetSize: true }} className="iw-canvas" dpr={[1, 1.25]} frameloop={paused ? "never" : "always"} camera={{ position: [0, .6, 5.4], fov: 42 }} gl={{ antialias: true, alpha: true }}>
+  return <Canvas className="iw-canvas" dpr={[1, 1.25]} frameloop={paused ? "never" : "always"} camera={{ position: [0, .6, 5.4], fov: 42 }} gl={{ antialias: true, alpha: true }}>
     <ambientLight intensity={.5} />
     <directionalLight position={[3, 4, 3]} intensity={1.4} />
     <pointLight position={[-3, 1, 2]} intensity={8} color={colors[0]} />

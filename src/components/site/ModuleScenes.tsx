@@ -481,7 +481,7 @@ export default function ModuleScene({ index = 0, paused = false, className = "",
   const Scene = SCENES[index] || CRMScene;
   return (
     <div className={className} data-scene-ready="true">
-      <Canvas resize={{ offsetSize: true }} camera={{ position: [0, 0.35, distance], fov: 38 }} dpr={[1, 1.25]} gl={{ antialias: true, alpha: true }} frameloop={paused ? "never" : "always"}>
+      <Canvas camera={{ position: [0, 0.35, distance], fov: 38 }} dpr={[1, 1.25]} gl={{ antialias: true, alpha: true }} frameloop={paused ? "never" : "always"}>
         <ambientLight intensity={0.55} />
         <directionalLight position={[3, 5, 4]} intensity={1.6} />
         <pointLight position={[-3, 1, 3]} intensity={18} color={p.a} />

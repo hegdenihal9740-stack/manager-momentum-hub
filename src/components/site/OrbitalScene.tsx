@@ -86,7 +86,7 @@ function Scene({ ready }) {
 }
 
 export default function OrbitalScene({ paused = false, ready = true }) {
-  return <Canvas resize={{ offsetSize: true }} camera={{ position: [0, 0, 5.8], fov: 42 }} dpr={[1, 1.25]} frameloop={paused ? "never" : "always"}>
+  return <Canvas camera={{ position: [0, 0, 5.8], fov: 42 }} dpr={[1, 1.25]} frameloop={paused ? "never" : "always"}>
     <Scene ready={ready}/>
   </Canvas>
 }

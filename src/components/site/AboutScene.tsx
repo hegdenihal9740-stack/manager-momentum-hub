@@ -56,7 +56,7 @@ function Assembly() {
 
 export default function AboutScene({ paused = false }) {
   return (
-    <Canvas resize={{ offsetSize: true }} camera={{ position: [0, 1.3, 5.4], fov: 42 }} dpr={[1, 1.25]} frameloop={paused ? "never" : "always"}>
+    <Canvas camera={{ position: [0, 1.3, 5.4], fov: 42 }} dpr={[1, 1.25]} frameloop={paused ? "never" : "always"}>
       <ambientLight intensity={0.5} />
       <pointLight position={[3, 3, 4]} intensity={30} color="#2EC4F1" />
       <pointLight position={[-3, -1, 3]} intensity={26} color="#E5237B" />
