@@ -32,7 +32,7 @@ export default function TouchFX() {
         burst.appendChild(p);
       }
       layer.appendChild(burst);
-      setTimeout(() => burst.remove(), 900);
+      setTimeout(() => burst.remove(), 1000);
 
       const btn = t.closest?.(".button");
       if (btn) {
