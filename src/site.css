@@ -1488,3 +1488,34 @@ body,.platform-section{background:linear-gradient(180deg,#fdf2f6 0%,#eaf4fb 40%,
  .hero-floor,.about-bg i,.explain-bg i,.about-visual::before,.about-ring,.about-tag,.explain-orb,.dash-steps b::before{animation:none}
 }
 .about-badge{left:0;right:0;margin:0 auto;width:max-content;max-width:calc(100% - 32px);translate:none}
+
+/* ===== Hero: labels on an even orbit centred on the globe ===== */
+.hero-visual{container-type:size}
+.hero-keyword-orbit{--r:min(40cqmin,calc(50cqmin - 66px))}
+.hero-keyword-orbit .kw-track{position:absolute;left:50%;top:50%;width:calc(var(--r) * 2);height:calc(var(--r) * 2);translate:-50% -50%;border-radius:50%;border:1px dashed rgba(194,107,224,.32);box-shadow:0 0 40px rgba(46,196,241,.08) inset}
+.hero-keyword-orbit .kw-ring{position:absolute;inset:0;animation:kwSpin 80s linear infinite}
+.hero-keyword-orbit .kw-slot{position:absolute;left:50%;top:50%;width:0;height:0;transform:rotate(var(--a)) translateX(var(--r)) rotate(calc(var(--a) * -1))}
+.hero-keyword-orbit .kw-counter{position:absolute;left:0;top:0;width:0;height:0;animation:kwSpin 80s linear infinite reverse}
+.hero-keyword-orbit .hero-keyword-tag{position:absolute;left:0;top:0;translate:-50% -50%;animation:none;white-space:nowrap;top:auto;right:auto;bottom:auto}
+@keyframes kwSpin{to{rotate:360deg}}
+@media(max-width:760px){
+ .hero-keyword-orbit{--r:min(40cqmin,calc(50cqmin - 50px))}
+ .hero-keyword-orbit .hero-keyword-tag{min-height:30px;padding:7px 10px;gap:6px;font-size:9.5px}
+ .hero-keyword-orbit .hero-keyword-tag svg{width:12px;height:12px}
+}
+@media(prefers-reduced-motion:reduce){.hero-keyword-orbit .kw-ring,.hero-keyword-orbit .kw-counter{animation:none}}
+
+/* ===== About: tidy alignment ===== */
+.about-grid{align-items:center}
+.about-section .section-heading h2{font-size:clamp(34px,3.5vw,50px);letter-spacing:-2px}
+.about-section .scroll-fill{font-size:clamp(18px,1.7vw,22px)}
+.about-ring{top:50%;width:300px;height:300px;margin:-150px 0 0 -150px}
+.about-tag-0{top:auto;bottom:auto;left:6%;right:auto;top:44%}
+.about-tag-1{top:7%;left:50%;right:auto;translate:-50% 0}
+.about-tag-2{top:44%;bottom:auto;left:auto;right:6%}
+.about-tag-1{animation:none}
+@media(max-width:900px){.about-copy .section-heading,.about-copy .scroll-fill{max-width:none}}
+@media(max-width:520px){
+ .about-tag{padding:7px 11px;font-size:11px}
+ .about-tag-0{left:4%;top:40%}.about-tag-2{right:4%;top:40%}
+}
