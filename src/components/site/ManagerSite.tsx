@@ -77,11 +77,10 @@ const headingParent={hidden:{},show:{transition:{staggerChildren:.12}}}
 const headingChild={hidden:{opacity:0,y:30,rotateX:-40,filter:'blur(6px)'},show:{opacity:1,y:0,rotateX:0,filter:'blur(0px)',transition:{duration:.9,ease}}}
 function useScrollSkew(){const {scrollY}=useScroll();const v=useVelocity(scrollY);const sk=useTransform(v,[-2500,0,2500],[4,0,-4],{clamp:true});return useSpring(sk,{stiffness:200,damping:30})}
 function SectionHeading({eyebrow,title,copy,center=false}){const skewY=useScrollSkew();return <motion.div className={`section-heading ${center?'center':''}`} style={{perspective:900,skewY}} variants={headingParent} initial="hidden" whileInView="show" viewport={{once:true,amount:.3}}><motion.div variants={headingChild}><Eyebrow>{eyebrow}</Eyebrow></motion.div><motion.span className="heading-line" aria-hidden="true" variants={{hidden:{scaleX:0,opacity:0},show:{scaleX:1,opacity:1,transition:{duration:1.1,ease}}}}/><motion.h2 variants={headingChild} style={{transformOrigin:'50% 100%'}}>{title}</motion.h2>{copy&&<motion.p variants={headingChild}>{copy}</motion.p>}</motion.div>}
-function HeroKeywords({ready=true}){
- const reduced=!!useReducedMotion()
+function HeroKeywords(){
+ const prefersReducedMotion=!!useReducedMotion()
  return <div className="hero-keyword-orbit" role="list" aria-label="Business areas">
-  <span className="kw-track" aria-hidden="true"/>
-  <div className="kw-ring">{heroKeywordTags.map(({label,icon:Icon},index)=><div key={label} className="kw-slot" style={{'--a':`${-90+index*(360/heroKeywordTags.length)}deg`}}><div className="kw-counter"><motion.div className="orbit-label hero-keyword-tag" role="listitem" initial={reduced?false:{opacity:0,scale:.4,filter:'blur(6px)'}} animate={ready?{opacity:1,scale:1,filter:'blur(0px)'}:undefined} transition={{duration:reduced?0:.6,delay:reduced?0:.6+index*.12,ease:[.22,1,.36,1]}}><Icon size={14}/>{label}</motion.div></div></div>)}</div>
+  {heroKeywordTags.map(({label,icon:Icon,position},index)=><motion.div key={label} className={`orbit-label hero-keyword-tag ${position}`} role="listitem" initial={prefersReducedMotion?false:{opacity:0,y:12,scale:.94,filter:'blur(5px)'}} animate={{opacity:1,y:0,scale:1,filter:'blur(0px)'}} transition={{duration:prefersReducedMotion?0:.5,delay:prefersReducedMotion?0:.2+index*.1,ease:[.22,1,.36,1]}}><Icon size={14}/>{label}</motion.div>)}
  </div>
 }
 const dashTabs=[
@@ -126,7 +125,7 @@ function Hero({ready=true}){
   <motion.p className="hero-sub" initial={{opacity:0,y:20,filter:'blur(8px)'}} animate={ready?{opacity:1,y:0,filter:'blur(0px)'}:undefined} transition={{delay:.55,duration:.8,ease}}>One unified platform for sales, inventory, HR, finance and operations. Real-time data flows across every module, so your teams can work from one source of truth.</motion.p>
    <motion.div className="hero-buttons" initial={{opacity:0,y:24}} animate={ready?{opacity:1,y:0}:undefined} transition={{delay:.7,duration:.8,ease}}><a className="button" href="#contact">Get started <ArrowUpRight size={17}/></a><a className="button button-ghost" href="#platform"><span className="play"><Play size={12} fill="currentColor"/></span> Explore the platform</a></motion.div>
    <motion.div className="hero-proof" initial={{opacity:0,y:12}} animate={ready?{opacity:1,y:0}:undefined} transition={{delay:.9,duration:.8,ease}}><div className="proof-avatars"><i>J</i><i>A</i><i>M</i><i>+</i></div><span>Built for ambitious teams<br/><b>Join 10,000+ teams scaling their operations.</b></span></motion.div>
-  </motion.div><motion.div className="hero-visual-parallax" style={isMobile?undefined:{y:visY,scale:visScale,rotateX:visRot,transformPerspective:1200}}><motion.div className="hero-visual" initial={{opacity:0,scale:.6,rotate:-25,filter:'blur(14px)'}} animate={ready?{opacity:1,scale:1,rotate:0,filter:'blur(0px)'}:undefined} transition={{delay:.3,duration:1.4,ease}}><ClientOrbitalScene ready={ready}/><HeroKeywords ready={ready}/></motion.div></motion.div></div>
+  </motion.div><motion.div className="hero-visual-parallax" style={isMobile?undefined:{y:visY,scale:visScale,rotateX:visRot,transformPerspective:1200}}><motion.div className="hero-visual" initial={{opacity:0,scale:.6,rotate:-25,filter:'blur(14px)'}} animate={ready?{opacity:1,scale:1,rotate:0,filter:'blur(0px)'}:undefined} transition={{delay:.3,duration:1.4,ease}}><ClientOrbitalScene ready={ready}/><HeroKeywords/></motion.div></motion.div></div>
   <div className="hero-bottom"><span>BUILT FOR TEAMS THAT MOVE FORWARD</span><div className="scroll-line"/><span>SCROLL TO EXPLORE ↓</span></div>
  </section>
 }
@@ -160,7 +159,7 @@ function About(){
  const ref=React.useRef(null)
  const {scrollYProgress}=useScroll({target:ref,offset:['start end','end start']})
  const p=useSpring(scrollYProgress,{stiffness:80,damping:22,mass:.4})
- const visRot=useTransform(p,[0,.5,1],[-14,0,10]),visY=useTransform(p,[0,1],[40,-40]),visScale=useTransform(p,[0,.45,1],[.9,1,.96])
+ const visRot=useTransform(p,[0,.5,1],[-18,0,14]),visY=useTransform(p,[0,1],[80,-80]),visScale=useTransform(p,[0,.45,1],[.85,1,.94])
  return <section ref={ref} className="section about-section" id="about"><div className="about-bg" aria-hidden="true"><i/><i/><i/></div><div className="container about-grid">
   <div className="about-copy">
    <SectionHeading eyebrow="ABOUT THE COMPANY" title={<>Built by DevOps Manager.<br/><span className="gradient-text">Made for businesses that move.</span></>}/>
