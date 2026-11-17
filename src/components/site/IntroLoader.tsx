@@ -12,8 +12,8 @@ const nodes = [
   ["Sales", BarChart3], ["Inventory", Boxes], ["Marketing", Workflow], ["People", Users],
   ["Finance", Wallet], ["Logistics", Truck], ["Documents", FileText], ["Compliance", ShieldCheck],
 ];
-const MIN_MS = 1500;
-const MAX_WAIT_MS = 2200; // never hold the visitor longer than this
+const MIN_MS = 5000;
+const MAX_WAIT_MS = 5500; // never hold the visitor longer than this
 
 /** Full-screen intro: modules connect one by one while the page loads, then a curtain opens onto the site. */
 export default function IntroLoader({ onDone }) {
@@ -29,7 +29,7 @@ export default function IntroLoader({ onDone }) {
     const cap = setTimeout(markLoaded, MAX_WAIT_MS);
     // time the page already spent loading counts toward the minimum, with a short floor so the animation still plays
     const start = performance.now();
-    const total = reduced ? 400 : Math.max(800, MIN_MS - start);
+    const total = reduced ? 400 : Math.max(4200, MIN_MS - start);
     let raf, shown = 0, timer;
     const tick = now => {
       const t = Math.max(0, Math.min(1, (now - start) / total));

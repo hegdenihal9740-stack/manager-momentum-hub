@@ -4,7 +4,7 @@ import { useEffect } from "react";
 const colors = ["#2ec4f1", "#3b4fa8", "#7a3a93", "#e5237b", "#ee3333"];
 
 /** Site-wide touch & cursor effects: colour burst on every tap, ripple inside buttons,
- *  magnetic buttons and a trailing cursor ring on desktop. Skipped for reduced motion. */
+ *  and magnetic buttons on desktop. Skipped for reduced motion. */
 export default function TouchFX() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -47,12 +47,8 @@ export default function TouchFX() {
     };
     window.addEventListener("pointerdown", onDown, { passive: true });
 
-    let raf = 0, cursor, magnet = null;
-    const pos = { x: -100, y: -100 }, ring = { x: -100, y: -100 };
+    let magnet = null;
     const onMove = (e) => {
-      pos.x = e.clientX; pos.y = e.clientY;
-      const hot = e.target.closest?.("a,button,select,[role=button]");
-      cursor.classList.toggle("hot", !!hot);
       const m = e.target.closest?.(".button");
       if (magnet && magnet !== m) { magnet.style.translate = ""; magnet = null; }
       if (m) {
@@ -61,29 +57,10 @@ export default function TouchFX() {
         magnet = m;
       }
     };
-    const onLeave = () => { cursor.classList.add("gone"); };
-    const onEnter = () => { cursor.classList.remove("gone"); };
-    if (fine) {
-      cursor = document.createElement("div");
-      cursor.className = "fx-cursor gone";
-      layer.appendChild(cursor);
-      const loop = () => {
-        ring.x += (pos.x - ring.x) * 0.2; ring.y += (pos.y - ring.y) * 0.2;
-        cursor.style.transform = `translate3d(${ring.x}px,${ring.y}px,0)`;
-        raf = requestAnimationFrame(loop);
-      };
-      raf = requestAnimationFrame(loop);
-      window.addEventListener("pointermove", onMove, { passive: true });
-      document.addEventListener("mouseleave", onLeave);
-      document.addEventListener("mouseenter", onEnter);
-      window.addEventListener("pointermove", onEnter, { once: true });
-    }
+    if (fine) window.addEventListener("pointermove", onMove, { passive: true });
     return () => {
-      cancelAnimationFrame(raf);
       window.removeEventListener("pointerdown", onDown);
       window.removeEventListener("pointermove", onMove);
-      document.removeEventListener("mouseleave", onLeave);
-      document.removeEventListener("mouseenter", onEnter);
       layer.remove();
     };
   }, []);

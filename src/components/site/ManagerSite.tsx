@@ -1,9 +1,10 @@
 // @ts-nocheck
 import React, { useState } from 'react'
-import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform, useSpring, useMotionValue, useMotionValueEvent, useInView, MotionConfig } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform, useSpring, useMotionValue, useMotionValueEvent, useInView, MotionConfig, useVelocity, useAnimationFrame } from 'framer-motion'
 import { ArrowUpRight, ArrowRight, Menu, X, ChevronDown, Check, Zap, ShieldCheck, Globe2, Layers3, Workflow, BarChart3, Users, Boxes, Wallet, Truck, FileText, LockKeyhole, GraduationCap, ShoppingBag, Rocket, Play, Sparkles, Plus, Minus, Phone, MapPin, Github, Linkedin, Twitter, Search, CalendarDays, Mail, TrendingUp, Activity, Clock3 } from 'lucide-react'
 const OrbitalScene = React.lazy(() => import('./OrbitalScene'))
 const ModuleScene = React.lazy(() => import('./ModuleScenes'))
+const AboutScene = React.lazy(() => import('./AboutScene'))
 import ModuleWorkspace from './ModuleWorkspace'
 import IndustryWorkspace from './IndustryWorkspace'
 import IntroLoader from './IntroLoader'
@@ -13,7 +14,8 @@ import logoDark from '@/assets/logo-lockup.png.asset.json'
 import TouchFX from './TouchFX'
 import { circleReveal } from './tapOrigin'
 function ClientModuleScene({index,paused}){const ref=React.useRef(null);const inView=useInView(ref,{margin:'120px'});const [mounted,setMounted]=useState(false);React.useEffect(()=>setMounted(true),[]);return <div ref={ref} className="mf-scene" aria-hidden="true">{mounted&&<React.Suspense fallback={null}><ModuleScene index={index} paused={paused||!inView} sparkles={false} distance={5.8} className="mf-canvas"/></React.Suspense>}</div>}
-function ClientOrbitalScene(){const ref=React.useRef(null);const inView=useInView(ref,{margin:'120px'});const [mounted,setMounted]=useState(false);React.useEffect(()=>setMounted(true),[]);return <div ref={ref} className="orbital-canvas" aria-hidden="true">{mounted&&<React.Suspense fallback={null}><OrbitalScene paused={!inView}/></React.Suspense>}</div>}
+function ClientAboutScene(){const ref=React.useRef(null);const inView=useInView(ref,{margin:'120px'});const [mounted,setMounted]=useState(false);React.useEffect(()=>setMounted(true),[]);return <div ref={ref} className="about-canvas" aria-hidden="true">{mounted&&inView&&<React.Suspense fallback={null}><AboutScene/></React.Suspense>}</div>}
+function ClientOrbitalScene({ready=true}){const ref=React.useRef(null);const inView=useInView(ref,{margin:'120px'});const [mounted,setMounted]=useState(false);React.useEffect(()=>setMounted(true),[]);return <div ref={ref} className="orbital-canvas" aria-hidden="true">{mounted&&<React.Suspense fallback={null}><OrbitalScene paused={!inView} ready={ready}/></React.Suspense>}</div>}
 
 const modules = [
   {n:'01',name:'Sales & CRM',desc:'Keep sales activity and customer relationships connected in one shared workspace.',icon:Workflow,tag:'Customer growth',color:'blue'},
@@ -66,13 +68,14 @@ function Logo(){return <a href="#home" className="brand" aria-label="DevOps Mana
 function Header({ready=true}){
  const [open,setOpen]=useState(false),[scrolled,setScrolled]=useState(false)
  React.useEffect(()=>{const f=()=>setScrolled(window.scrollY>20);window.addEventListener('scroll',f);return()=>window.removeEventListener('scroll',f)},[])
- const links=[['Platform','#platform'],['Solutions','#industries'],['Resources','#resources'],['Company','#company']]
+ const links=[['About','#about'],['Platform','#platform'],['Solutions','#industries'],['Resources','#resources'],['Company','#company']]
  return <header className={`header ${scrolled?'scrolled':''}`}><motion.div className="nav-wrap" initial={{y:-90,opacity:0}} animate={ready?{y:0,opacity:1}:undefined} transition={{duration:.9,ease,delay:.15}}><Logo/><nav className={`nav ${open?'nav-open':''}`}>{links.map(([l,h])=><a key={l} href={h} onClick={()=>setOpen(false)}>{l}{l==='Platform'&&<ChevronDown size={13}/>}</a>)}</nav><div className="nav-actions"><a href="#contact" className="button button-small">Book a demo <ArrowUpRight size={15}/></a></div><button className="menu-toggle" onClick={()=>setOpen(!open)} aria-label="Toggle menu" aria-expanded={open}>{open?<X/>:<Menu/>}</button></motion.div></header>
 }
 function Eyebrow({children}){return <div className="eyebrow"><span className="eyebrow-dot"/>{children}</div>}
 const headingParent={hidden:{},show:{transition:{staggerChildren:.12}}}
 const headingChild={hidden:{opacity:0,y:30,rotateX:-40,filter:'blur(6px)'},show:{opacity:1,y:0,rotateX:0,filter:'blur(0px)',transition:{duration:.9,ease}}}
-function SectionHeading({eyebrow,title,copy,center=false}){return <motion.div className={`section-heading ${center?'center':''}`} style={{perspective:900}} variants={headingParent} initial="hidden" whileInView="show" viewport={{once:true,amount:.3}}><motion.div variants={headingChild}><Eyebrow>{eyebrow}</Eyebrow></motion.div><motion.span className="heading-line" aria-hidden="true" variants={{hidden:{scaleX:0,opacity:0},show:{scaleX:1,opacity:1,transition:{duration:1.1,ease}}}}/><motion.h2 variants={headingChild} style={{transformOrigin:'50% 100%'}}>{title}</motion.h2>{copy&&<motion.p variants={headingChild}>{copy}</motion.p>}</motion.div>}
+function useScrollSkew(){const {scrollY}=useScroll();const v=useVelocity(scrollY);const sk=useTransform(v,[-2500,0,2500],[4,0,-4],{clamp:true});return useSpring(sk,{stiffness:200,damping:30})}
+function SectionHeading({eyebrow,title,copy,center=false}){const skewY=useScrollSkew();return <motion.div className={`section-heading ${center?'center':''}`} style={{perspective:900,skewY}} variants={headingParent} initial="hidden" whileInView="show" viewport={{once:true,amount:.3}}><motion.div variants={headingChild}><Eyebrow>{eyebrow}</Eyebrow></motion.div><motion.span className="heading-line" aria-hidden="true" variants={{hidden:{scaleX:0,opacity:0},show:{scaleX:1,opacity:1,transition:{duration:1.1,ease}}}}/><motion.h2 variants={headingChild} style={{transformOrigin:'50% 100%'}}>{title}</motion.h2>{copy&&<motion.p variants={headingChild}>{copy}</motion.p>}</motion.div>}
 function HeroKeywords(){
  const prefersReducedMotion=!!useReducedMotion()
  return <div className="hero-keyword-orbit" role="list" aria-label="Business areas">
@@ -95,7 +98,7 @@ function DashboardMock({activeTab,onTab,progress}){
  const current=dashTabs[activeTab]
  return <div className="dashboard">
   <div className="dash-top"><div className="dash-brand"><img className="dash-logo" src={logoDark.url} alt="DevOps Manager" width="747" height="240"/></div>
-   <div className="dash-steps" aria-live="polite"><span className="dash-step-count">0{activeTab+1}<i>/ 0{dashTabs.length}</i></span><AnimatePresence mode="wait" initial={false}><motion.b key={activeTab} initial={{y:10,opacity:0,rotateX:-80}} animate={{y:0,opacity:1,rotateX:0}} exit={{y:-10,opacity:0,rotateX:80}} transition={{duration:.35,ease}}>{current.label}</motion.b></AnimatePresence></div>
+   <div className="dash-steps" aria-live="polite"><AnimatePresence mode="wait" initial={false}><motion.b key={activeTab} initial={{y:10,opacity:0,rotateX:-80}} animate={{y:0,opacity:1,rotateX:0}} exit={{y:-10,opacity:0,rotateX:80}} transition={{duration:.35,ease}}>{current.label}</motion.b></AnimatePresence></div>
    <span className="dash-live"><b/> Live workspace</span>
    <motion.div className="dash-progress" style={{scaleX:progress}}/>
   </div>
@@ -115,17 +118,94 @@ function Hero({ready=true}){
  const p=useSpring(scrollYProgress,{stiffness:100,damping:24,mass:.3})
  const copyY=useTransform(p,[0,1],[0,-140]),copyO=useTransform(p,[0,.75],[1,0]),copyBlur=useTransform(p,[0,.75],['blur(0px)','blur(6px)'])
  const visY=useTransform(p,[0,1],[0,180]),visScale=useTransform(p,[0,1],[1,.74]),visRot=useTransform(p,[0,1],[0,-22])
- return <section ref={ref} className="hero" id="home"><div className="hero-grid-bg"/><div className="hero-glow"/><div className="hero-orbs" aria-hidden="true"><i/><i/><i/><i/></div>{ready&&<motion.div className="hero-sweep" aria-hidden="true" initial={{x:'-60%',opacity:0}} animate={{x:'160%',opacity:[0,1,1,0]}} transition={{duration:1.6,ease:[.65,0,.35,1]}}/>}
+ return <section ref={ref} className="hero" id="home"><div className="hero-grid-bg"/><div className="hero-glow"/><div className="hero-orbs" aria-hidden="true"><i/><i/><i/><i/></div><div className="hero-floor" aria-hidden="true"/>{ready&&<motion.div className="hero-sweep" aria-hidden="true" initial={{x:'-60%',opacity:0}} animate={{x:'160%',opacity:[0,1,1,0]}} transition={{duration:1.6,ease:[.65,0,.35,1]}}/>}
   <div className="container hero-inner"><motion.div className="hero-copy" style={isMobile?undefined:{y:copyY,opacity:copyO,filter:copyBlur}}>  <motion.div initial={{opacity:0,y:15,scale:.8}} animate={ready?{opacity:1,y:0,scale:1}:undefined} transition={{delay:.1,type:'spring',stiffness:200,damping:16}}><span className="release-pill"><span/> Beta release <ArrowUpRight size={13}/></span></motion.div>
   <h1><span className="h1-mask"><motion.span className="h1-line" initial={{y:'115%',rotate:6}} animate={ready?{y:0,rotate:0}:undefined} transition={{duration:1.05,ease,delay:.2}}>Run your entire</motion.span></span><br/><span className="h1-mask"><motion.span className="h1-line h1-grad" initial={{y:'115%',rotate:6}} animate={ready?{y:0,rotate:0}:undefined} transition={{duration:1.05,ease,delay:.36}}>business, beautifully.</motion.span></span></h1>
   <motion.p className="hero-sub" initial={{opacity:0,y:20,filter:'blur(8px)'}} animate={ready?{opacity:1,y:0,filter:'blur(0px)'}:undefined} transition={{delay:.55,duration:.8,ease}}>One unified platform for sales, inventory, HR, finance and operations. Real-time data flows across every module, so your teams can work from one source of truth.</motion.p>
    <motion.div className="hero-buttons" initial={{opacity:0,y:24}} animate={ready?{opacity:1,y:0}:undefined} transition={{delay:.7,duration:.8,ease}}><a className="button" href="#contact">Get started <ArrowUpRight size={17}/></a><a className="button button-ghost" href="#platform"><span className="play"><Play size={12} fill="currentColor"/></span> Explore the platform</a></motion.div>
    <motion.div className="hero-proof" initial={{opacity:0,y:12}} animate={ready?{opacity:1,y:0}:undefined} transition={{delay:.9,duration:.8,ease}}><div className="proof-avatars"><i>J</i><i>A</i><i>M</i><i>+</i></div><span>Built for ambitious teams<br/><b>Join 10,000+ teams scaling their operations.</b></span></motion.div>
-  </motion.div><motion.div className="hero-visual-parallax" style={isMobile?undefined:{y:visY,scale:visScale,rotateX:visRot,transformPerspective:1200}}><motion.div className="hero-visual" initial={{opacity:0,scale:.6,rotate:-25,filter:'blur(14px)'}} animate={ready?{opacity:1,scale:1,rotate:0,filter:'blur(0px)'}:undefined} transition={{delay:.3,duration:1.4,ease}}><ClientOrbitalScene/><HeroKeywords/></motion.div></motion.div></div>
+  </motion.div><motion.div className="hero-visual-parallax" style={isMobile?undefined:{y:visY,scale:visScale,rotateX:visRot,transformPerspective:1200}}><motion.div className="hero-visual" initial={{opacity:0,scale:.6,rotate:-25,filter:'blur(14px)'}} animate={ready?{opacity:1,scale:1,rotate:0,filter:'blur(0px)'}:undefined} transition={{delay:.3,duration:1.4,ease}}><ClientOrbitalScene ready={ready}/><HeroKeywords/></motion.div></motion.div></div>
   <div className="hero-bottom"><span>BUILT FOR TEAMS THAT MOVE FORWARD</span><div className="scroll-line"/><span>SCROLL TO EXPLORE ↓</span></div>
  </section>
 }
-function Ticker(){return <div className="ticker"><div className="ticker-track">{['Real-time sync','AI insights','Cloud native','Bank-grade security','Multi-currency','Open API','24/7 support','Mobile first','Custom workflows','Smart automation','Global scale','Zero downtime','Real-time sync','AI insights','Cloud native','Bank-grade security','Multi-currency','Open API','24/7 support','Mobile first','Custom workflows','Smart automation','Global scale','Zero downtime'].map((x,i)=><span key={i}><i>✳</i>{x}</span>)}</div></div>}
+const tickerWords=['Real-time sync','AI insights','Cloud native','Bank-grade security','Multi-currency','Open API','24/7 support','Mobile first','Custom workflows','Smart automation','Global scale','Zero downtime','Real-time sync','AI insights','Cloud native','Bank-grade security','Multi-currency','Open API','24/7 support','Mobile first','Custom workflows','Smart automation','Global scale','Zero downtime']
+const wrap=(min,max,v)=>{const r=max-min;return((((v-min)%r)+r)%r)+min}
+function Ticker(){
+ const reduced=useReducedMotion()
+ const base=useMotionValue(0),dir=React.useRef(1)
+ const {scrollY}=useScroll(),vel=useVelocity(scrollY),sv=useSpring(vel,{damping:50,stiffness:400})
+ const factor=useTransform(sv,[0,1000],[0,5],{clamp:false})
+ const x=useTransform(base,v=>`${wrap(-50,0,v)}%`)
+ useAnimationFrame((t,delta)=>{if(reduced)return;let move=dir.current*-1.6*(delta/1000);const f=factor.get();if(f<0)dir.current=-1;else if(f>0)dir.current=1;move+=dir.current*-1.6*(delta/1000)*Math.abs(f);base.set(base.get()+move)})
+ const skewX=useTransform(sv,[-2500,2500],[12,-12],{clamp:true})
+ return <div className="ticker"><motion.div className="ticker-track ticker-live" style={{x,skewX}}>{tickerWords.map((w,i)=><span key={i}><i>✳</i>{w}</span>)}</motion.div></div>
+}
+
+function ScrollFill({text,className=''}){
+ const ref=React.useRef(null)
+ const {scrollYProgress}=useScroll({target:ref,offset:['start 88%','end 50%']})
+ const words=text.split(' ')
+ return <p ref={ref} className={`scroll-fill ${className}`}>{words.map((w,i)=><FillWord key={i} p={scrollYProgress} range={[i/words.length,Math.min(1,(i+1.5)/words.length)]}>{w}</FillWord>)}</p>
+}
+function FillWord({children,p,range}){const o=useTransform(p,range,[.16,1]);const y=useTransform(p,range,[6,0]);return <motion.span style={{opacity:o,y,display:'inline-block'}}>{children}&nbsp;</motion.span>}
+const pillars=[
+ ['People','Teams share one workspace, so everyone works from the same picture.',Users],
+ ['Processes','Everyday workflows are connected instead of scattered across tools.',Workflow],
+ ['Progress','Live numbers make it easier to see what is moving and what needs attention.',TrendingUp],
+ ['Together','Sales, stock, people and money finally speak the same language.',Layers3]
+]
+function About(){
+ const ref=React.useRef(null)
+ const {scrollYProgress}=useScroll({target:ref,offset:['start end','end start']})
+ const p=useSpring(scrollYProgress,{stiffness:80,damping:22,mass:.4})
+ const visRot=useTransform(p,[0,.5,1],[-18,0,14]),visY=useTransform(p,[0,1],[80,-80]),visScale=useTransform(p,[0,.45,1],[.85,1,.94])
+ return <section ref={ref} className="section about-section" id="about"><div className="about-bg" aria-hidden="true"><i/><i/><i/></div><div className="container about-grid">
+  <div className="about-copy">
+   <SectionHeading eyebrow="ABOUT THE COMPANY" title={<>Built by DevOps Manager.<br/><span className="gradient-text">Made for businesses that move.</span></>}/>
+   <ScrollFill text="DevOps Manager LLP is a technology company from Mangaluru, Karnataka. We build The Manager, a modern business management suite that brings people, processes and progress together, so growing businesses can spend less time juggling tools and more time moving forward."/>
+   <motion.div className="pillar-grid" initial="hidden" whileInView="show" viewport={{once:true,amount:.2}} variants={{hidden:{},show:{transition:{staggerChildren:.12}}}}>{pillars.map(([t,d,I],i)=><motion.div key={t} className="pillar" variants={{hidden:{opacity:0,rotateY:-90,x:-20},show:{opacity:1,rotateY:0,x:0,transition:{duration:.8,ease}}}} style={{transformPerspective:900,transformOrigin:'0% 50%'}}><span className="pillar-icon"><I size={18}/></span><div><b>{t}</b><p>{d}</p></div></motion.div>)}</motion.div>
+  </div>
+  <motion.div className="about-visual" style={{rotateY:visRot,y:visY,scale:visScale,transformPerspective:1400}}>
+   <div className="about-ring" aria-hidden="true"/>
+   <ClientAboutScene/>
+   {['Simplify','Organize','Grow'].map((w,i)=><motion.span key={w} className={`about-tag about-tag-${i}`} initial={{opacity:0,scale:.6,y:20}} whileInView={{opacity:1,scale:1,y:0}} viewport={{once:true}} transition={{type:'spring',stiffness:180,damping:14,delay:.3+i*.15}}><i/>{w}</motion.span>)}
+   <motion.div className="about-badge" initial={{opacity:0,y:24}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{duration:.8,ease,delay:.5}}><img src={logoMark.url} alt="" width="34" height="34"/><div><b>DevOps Manager LLP</b><small><MapPin size={11}/> Mangaluru, Karnataka</small></div></motion.div>
+  </motion.div>
+ </div></section>
+}
+const explainItems=[
+ {n:'01',word:'Simplify',icon:Layers3,before:'A spreadsheet here, a chat group there, a separate app for every team.',after:'One workspace where sales, stock, people and money live side by side.'},
+ {n:'02',word:'Organize',icon:Workflow,before:'Numbers go out of date the moment someone copies them into a report.',after:'Updates flow across every module in real time, so everyone sees the same figures.'},
+ {n:'03',word:'Grow',icon:Rocket,before:'Every new branch or team means another tool to buy and connect.',after:'Switch on the modules you need as you grow, without new integrations to maintain.'}
+]
+function ExplainCard({it,i,progress}){
+ const reduced=useReducedMotion()
+ const start=i*.16,end=start+.42
+ const p=useSpring(useTransform(progress,[start,end],[0,1]),{stiffness:90,damping:20})
+ const rotateX=useTransform(p,[0,1],[70,0]),y=useTransform(p,[0,1],[140,0]),opacity=useTransform(p,[0,.45],[0,1]),scale=useTransform(p,[0,1],[.86,1])
+ const I=it.icon
+ return <motion.div className="explain-slot" style={reduced?undefined:{rotateX,y,opacity,scale,transformPerspective:1200,transformOrigin:'50% 100%'}}><TiltCard max={8}><article className={`explain-card ec-${i}`}>
+  <span className="explain-num" aria-hidden="true">{it.n}</span>
+  <div className="explain-orb"><I size={26}/></div>
+  <h3>{it.word}</h3>
+  <div className="explain-row before"><span><X size={13}/></span><p><small>THE OLD WAY</small>{it.before}</p></div>
+  <div className="explain-row after"><span><Check size={13}/></span><p><small>WITH THE MANAGER</small>{it.after}</p></div>
+ </article></TiltCard></motion.div>
+}
+function Explainer(){
+ const ref=React.useRef(null)
+ const {scrollYProgress}=useScroll({target:ref,offset:['start 85%','end 75%']})
+ return <section ref={ref} className="section explain-section" id="explain"><div className="explain-bg" aria-hidden="true"><i/><i/></div><div className="container">
+  <SectionHeading eyebrow="SIMPLIFY · ORGANIZE · GROW" title={<>Here's how your day<br/><span className="gradient-text">gets easier.</span></>} copy="Most businesses don't need more software. They need the software they have to work together. Here is what changes when it does." center/>
+  <div className="explain-grid">{explainItems.map((it,i)=><ExplainCard key={it.n} it={it} i={i} progress={scrollYProgress}/>)}</div>
+ </div></section>
+}
+const railItems=[['home','Home'],['about','About'],['explain','How it helps'],['platform','Platform'],['modules','Modules'],['industries','Industries'],['resources','Resources'],['contact','Contact']]
+function ScrollRail(){
+ const [active,setActive]=useState('home')
+ React.useEffect(()=>{const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)setActive(e.target.id)})},{rootMargin:'-45% 0px -50% 0px'});railItems.forEach(([id])=>{const el=document.getElementById(id);el&&io.observe(el)});return()=>io.disconnect()},[])
+ return <nav className="scroll-rail" aria-label="Page sections">{railItems.map(([id,label])=><a key={id} href={`#${id}`} className={active===id?'on':''} aria-current={active===id?'true':undefined}><span>{label}</span><i/></a>)}</nav>
+}
 function Platform(){
  const pinRef=React.useRef(null)
  const n=dashTabs.length
@@ -208,5 +288,5 @@ export default function ManagerSite(){
  const {scrollYProgress}=useScroll()
  const progress=useSpring(scrollYProgress,{stiffness:140,damping:28,mass:.3})
  const hideIntro=React.useCallback(()=>setIntroVisible(false),[])
- return <MotionConfig reducedMotion="user"><motion.div className="scroll-progress" style={{scaleX:progress}} aria-hidden="true"/><AnimatePresence>{introVisible&&<IntroLoader key="intro" onDone={hideIntro}/>}</AnimatePresence><TouchFX/><Header ready={!introVisible}/><main><Hero ready={!introVisible}/><Ticker/><Platform/><Modules/><Industries/><Why/><Process/><Trust/><Resources/><FAQ/><Contact/></main><Footer/><a href="#home" className="back-top" aria-label="Back to top">↑</a></MotionConfig>
+ return <MotionConfig reducedMotion="user"><motion.div className="scroll-progress" style={{scaleX:progress}} aria-hidden="true"/><AnimatePresence>{introVisible&&<IntroLoader key="intro" onDone={hideIntro}/>}</AnimatePresence><TouchFX/><Header ready={!introVisible}/><ScrollRail/><main><Hero ready={!introVisible}/><Ticker/><About/><Explainer/><Platform/><Modules/><Industries/><Why/><Process/><Trust/><Resources/><FAQ/><Contact/></main><Footer/><a href="#home" className="back-top" aria-label="Back to top">↑</a></MotionConfig>
 }
