@@ -1,12 +1,12 @@
-// Per-module colour pairs shared by the 3D scenes and the workspace UI.
-// a = primary glow, b = warm counter-accent, c = deep tone.
+// Per-module colour pairs shared by the 3D scenes and the workspace UI (brand palette).
+// a = primary glow, b = counter-accent, c = deep tone.
 export const modulePalette = [
-  { a: "#8fb0ff", b: "#f2c58d", c: "#4f63e6" }, // Sales & CRM
-  { a: "#5ee6d6", b: "#ffb27a", c: "#1f8f86" }, // Inventory
-  { a: "#bf9bff", b: "#ff9fc4", c: "#7a5cff" }, // Marketing
-  { a: "#9cc0ff", b: "#ffd59a", c: "#4f6fe0" }, // Human Resources
-  { a: "#6ee7a8", b: "#ffd278", c: "#1f9e66" }, // Finance
-  { a: "#ffb27a", b: "#5ee6d6", c: "#d8703c" }, // Logistics
-  { a: "#7ff0e2", b: "#bf9bff", c: "#279c93" }, // Documents
-  { a: "#c6a6ff", b: "#6ee7a8", c: "#6a4ee0" }, // Compliance
+  { a: "#EE3333", b: "#2EC4F1", c: "#B82424" }, // Sales & CRM
+  { a: "#3B4FA8", b: "#E5237B", c: "#2A3A82" }, // Inventory
+  { a: "#E5237B", b: "#3B4FA8", c: "#A8185A" }, // Marketing
+  { a: "#7A3A93", b: "#2EC4F1", c: "#5A2A6E" }, // Human Resources
+  { a: "#E5237B", b: "#EE3333", c: "#A8185A" }, // Finance
+  { a: "#2EC4F1", b: "#7A3A93", c: "#1A8DB3" }, // Logistics
+  { a: "#4F8BD6", b: "#E5237B", c: "#3B4FA8" }, // Documents
+  { a: "#7A3A93", b: "#2EC4F1", c: "#3B4FA8" }, // Compliance
 ];

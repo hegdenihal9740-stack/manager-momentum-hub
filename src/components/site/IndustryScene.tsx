@@ -47,7 +47,7 @@ function Store({ c }) {
   useFrame((_, dt) => { if (table.current) table.current.rotation.y += Math.min(dt, .05) * .5; });
   const boxes = useMemo(() => [[-.6, -.55, .3, .6], [.1, -.55, -.2, .7], [.7, -.55, .3, .5], [-.25, .1, .05, .55], [.45, .05, 0, .45]], []);
   return <group ref={table}>
-    <mesh position={[0, -.95, 0]}><cylinderGeometry args={[1.7, 1.8, .14, 48]} /><meshStandardMaterial color="#2a2433" metalness={.3} roughness={.5} /></mesh>
+    <mesh position={[0, -.95, 0]}><cylinderGeometry args={[1.7, 1.8, .14, 48]} /><meshStandardMaterial color="#371443" metalness={.3} roughness={.5} /></mesh>
     {boxes.map(([x, y, z, s], i) => <Float key={i} speed={1.5 + i * .2} floatIntensity={.25} rotationIntensity={.2}><RoundedBox args={[s, s, s]} radius={.05} position={[x, y + s / 2 - .3, z]}><meshStandardMaterial color={c[i % 3]} roughness={.4} /></RoundedBox></Float>)}
     <Float speed={2.5} floatIntensity={.8}><group position={[0, 1, 0]}>
       <RoundedBox args={[.6, .7, .3]} radius={.06}><meshStandardMaterial color={c[0]} roughness={.3} metalness={.2} /></RoundedBox>

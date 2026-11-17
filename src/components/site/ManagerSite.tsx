@@ -136,7 +136,7 @@ function Platform(){
   <div className="platform-bottom"><div><span className="mini-kicker">ONE CONNECTED EXPERIENCE</span><h3>Every team sees<br/>the bigger picture.</h3></div><p>When your business runs on a shared foundation, information moves with your work. Give teams the context they need to make better decisions.</p><a href="#modules" className="text-link">Explore all modules <ArrowRight size={16}/></a></div>
  </div></section>
 }
-const moduleAccents={blue:'#8fb0ff',cyan:'#5ee6d6',violet:'#bf9bff',green:'#6ee7a8',orange:'#ffb27a'}
+const moduleAccents={blue:'#8fa2ff',cyan:'#5ec2e6',violet:'#e49bff',green:'#6ec7e7',orange:'#ff7a7a'}
 function Modules(){
  const [active,setActive]=useState(0)
  const [workspaceOpen,setWorkspaceOpen]=useState(false)

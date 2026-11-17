@@ -94,7 +94,7 @@ function CRMScene({ p }) {
           <cylinderGeometry args={[0.34, 0.34, 0.08, 56]} />
           <meshStandardMaterial color={p.b} metalness={0.95} roughness={0.18} emissive={p.b} emissiveIntensity={0.25} />
         </mesh>
-        <mesh><torusGeometry args={[0.27, 0.02, 10, 56]} /><meshStandardMaterial color="#fff3df" metalness={1} roughness={0.2} /></mesh>
+        <mesh><torusGeometry args={[0.27, 0.02, 10, 56]} /><meshStandardMaterial color="#ffdfdf" metalness={1} roughness={0.2} /></mesh>
       </group>
     </group>
   );
@@ -110,7 +110,7 @@ function InventoryScene({ p }) {
   const crates = useRef([]);
   const lowMat = useRef();
   const scanner = useRef();
-  const colors = [p.a, "#e9dccf", p.c, "#e9dccf", p.a, p.b, p.c, "#e9dccf", p.a];
+  const colors = [p.a, "#efc9c9", p.c, "#efc9c9", p.a, p.b, p.c, "#efc9c9", p.a];
   useFrame(({ clock }) => {
     const time = clock.elapsedTime;
     const local = time % 8;
@@ -127,11 +127,11 @@ function InventoryScene({ p }) {
   });
   return (
     <group rotation={[0.22, -0.55, 0]} position={[0, 0.05, 0]}>
-      <gridHelper args={[7, 14, p.a, "#3b2d4a"]} position={[0, -1.32, 0]} />
+      <gridHelper args={[7, 14, p.a, "#4b1b5c"]} position={[0, -1.32, 0]} />
       {[-0.98, -0.18, 0.62].map((y, r) => (
         <mesh key={r} position={[0, y - 0.31, 0]}>
           <boxGeometry args={[2.7, 0.05, 0.86]} />
-          <meshStandardMaterial color="#3a2b45" metalness={0.6} roughness={0.35} />
+          <meshStandardMaterial color="#461957" metalness={0.6} roughness={0.35} />
         </mesh>
       ))}
       {[-1.36, 1.36].map((x) => [-0.4, 0.4].map((z) => (
@@ -147,7 +147,7 @@ function InventoryScene({ p }) {
               ? <meshStandardMaterial ref={lowMat} color={p.b} emissive={p.b} emissiveIntensity={0.5} roughness={0.4} />
               : <meshStandardMaterial color={colors[i]} roughness={0.45} metalness={0.1} />}
           </RoundedBox>
-          <mesh position={[0, 0, 0.325]}><planeGeometry args={[0.3, 0.12]} /><meshBasicMaterial color="#1b1424" transparent opacity={0.55} /></mesh>
+          <mesh position={[0, 0, 0.325]}><planeGeometry args={[0.3, 0.12]} /><meshBasicMaterial color="#230d2b" transparent opacity={0.55} /></mesh>
         </group>
       ))}
       <mesh ref={scanner} rotation={[Math.PI / 2, 0, 0]}>
@@ -201,7 +201,7 @@ function MarketingScene({ p }) {
           <meshStandardMaterial color={p.b} metalness={0.8} roughness={0.25} />
         </mesh>
         <RoundedBox args={[0.18, 0.6, 0.2]} radius={0.06} position={[-0.75, -0.42, 0]} rotation={[0, 0, -0.25]}>
-          <meshStandardMaterial color="#2b2036" roughness={0.5} />
+          <meshStandardMaterial color="#361343" roughness={0.5} />
         </RoundedBox>
       </group>
       {[0, 1, 2, 3].map((i) => (
@@ -221,7 +221,7 @@ function MarketingScene({ p }) {
 }
 
 /* ---------- 3 · Human Resources — team constellation ---------- */
-function Person({ color, scale = 1, head = "#f3d9c4" }) {
+function Person({ color, scale = 1, head = "#f3c4c4" }) {
   return (
     <group scale={scale}>
       <mesh position={[0, 0.44, 0]}><sphereGeometry args={[0.19, 32, 32]} /><meshStandardMaterial color={head} roughness={0.5} /></mesh>
@@ -233,8 +233,8 @@ function HRScene({ p }) {
   const ring = useRef();
   const people = useRef([]);
   const pulses = useRef([]);
-  const team = [p.a, p.b, "#5ee6d6", "#ff9fc4", "#6ee7a8", "#ffb27a", "#bf9bff"];
-  const heads = ["#f3d9c4", "#d9a982", "#f6e1cf", "#b88462", "#ecc8a8", "#8d5f45", "#f3d9c4"];
+  const team = [p.a, p.b, "#5ec2e6", "#ff9fc9", "#6ec7e7", "#ff7a7a", "#e49bff"];
+  const heads = ["#f3c4c4", "#da8181", "#f6cfcf", "#cc4e4e", "#eca8a8", "#a32f2f", "#f3c4c4"];
   const R = 1.6;
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
@@ -251,7 +251,7 @@ function HRScene({ p }) {
   return (
     <group position={[0, -0.25, 0]} rotation={[0.32, 0, 0]}>
       <mesh position={[0, -0.6, 0]}><cylinderGeometry args={[0.55, 0.62, 0.12, 48]} /><meshStandardMaterial color={p.c} metalness={0.6} roughness={0.3} /></mesh>
-      <Person color={p.c} scale={1.3} head="#ffe1c8" />
+      <Person color={p.c} scale={1.3} head="#ffc8c8" />
       <mesh position={[0, -0.55, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <ringGeometry args={[R - 0.015, R + 0.015, 120]} />
         <meshBasicMaterial color={p.a} transparent opacity={0.45} side={THREE.DoubleSide} />
@@ -296,7 +296,7 @@ function FinanceScene({ p }) {
   });
   return (
     <group rotation={[0.2, -0.4, 0]} position={[-0.15, 0.1, 0]}>
-      <gridHelper args={[6, 12, p.a, "#33283f"]} position={[0, -1.16, 0]} />
+      <gridHelper args={[6, 12, p.a, "#411750"]} position={[0, -1.16, 0]} />
       {heights.map((_, i) => (
         <mesh key={i} ref={(el) => (bars.current[i] = el)} position={[-1.55 + i * 0.4, -1, 0]}>
           <boxGeometry args={[0.28, 1, 0.28]} />
@@ -315,7 +315,7 @@ function FinanceScene({ p }) {
           <cylinderGeometry args={[0.36, 0.36, 0.07, 56]} />
           <meshStandardMaterial color={p.b} metalness={1} roughness={0.15} emissive={p.b} emissiveIntensity={0.2} />
         </mesh>
-        <mesh><torusGeometry args={[0.28, 0.022, 10, 56]} /><meshStandardMaterial color="#fff2d6" metalness={1} roughness={0.2} /></mesh>
+        <mesh><torusGeometry args={[0.28, 0.022, 10, 56]} /><meshStandardMaterial color="#ffd6d6" metalness={1} roughness={0.2} /></mesh>
       </group>
     </group>
   );
@@ -354,7 +354,7 @@ function LogisticsScene({ p }) {
   return (
     <group rotation={[0.35, 0, 0.12]}>
       <group ref={globe}>
-        <mesh><sphereGeometry args={[R, 64, 64]} /><meshPhysicalMaterial color="#20162e" roughness={0.6} metalness={0.3} clearcoat={0.4} emissive={p.c} emissiveIntensity={0.08} /></mesh>
+        <mesh><sphereGeometry args={[R, 64, 64]} /><meshPhysicalMaterial color="#2b0f35" roughness={0.6} metalness={0.3} clearcoat={0.4} emissive={p.c} emissiveIntensity={0.08} /></mesh>
         <mesh><icosahedronGeometry args={[R * 1.006, 4]} /><meshBasicMaterial color={p.a} wireframe transparent opacity={0.13} /></mesh>
         {routes.map((r, i) => (
           <group key={i}>
@@ -377,11 +377,11 @@ function Sheet({ accent, header }) {
   return (
     <group>
       <RoundedBox args={[1.25, 1.65, 0.025]} radius={0.02} smoothness={2}>
-        <meshStandardMaterial color="#f8f2ea" roughness={0.7} />
+        <meshStandardMaterial color="#f9e9e9" roughness={0.7} />
       </RoundedBox>
       <mesh position={[-0.2, 0.62, 0.016]}><boxGeometry args={[0.6, 0.1, 0.005]} /><meshBasicMaterial color={header} /></mesh>
       {[0.36, 0.22, 0.08, -0.06, -0.2, -0.34].map((y, i) => (
-        <mesh key={i} position={[i % 3 === 2 ? -0.13 : 0, y, 0.016]}><boxGeometry args={[i % 3 === 2 ? 0.7 : 0.95, 0.035, 0.004]} /><meshBasicMaterial color="#cdc2d6" /></mesh>
+        <mesh key={i} position={[i % 3 === 2 ? -0.13 : 0, y, 0.016]}><boxGeometry args={[i % 3 === 2 ? 0.7 : 0.95, 0.035, 0.004]} /><meshBasicMaterial color="#d9b0e8" /></mesh>
       ))}
       <mesh position={[0.32, -0.6, 0.016]}><circleGeometry args={[0.1, 24]} /><meshBasicMaterial color={accent} /></mesh>
     </group>
@@ -458,7 +458,7 @@ function ComplianceScene({ p }) {
     <group>
       <group ref={shield}>
         <mesh geometry={geo}><meshPhysicalMaterial color={p.c} metalness={0.55} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} /></mesh>
-        <mesh geometry={geo} scale={[0.8, 0.8, 0.6]} position={[0, 0.02, 0.12]}><meshPhysicalMaterial color="#251a35" metalness={0.4} roughness={0.35} /></mesh>
+        <mesh geometry={geo} scale={[0.8, 0.8, 0.6]} position={[0, 0.02, 0.12]}><meshPhysicalMaterial color="#32123d" metalness={0.4} roughness={0.35} /></mesh>
         <mesh geometry={check} position={[0, 0.05, 0.24]}><meshStandardMaterial color={p.b} emissive={p.b} emissiveIntensity={0.7} /></mesh>
         <mesh ref={scan} position={[0, 0, 0.3]}><planeGeometry args={[2, 0.05]} /><meshBasicMaterial color={p.a} transparent opacity={0.5} blending={THREE.AdditiveBlending} depthWrite={false} /></mesh>
       </group>
