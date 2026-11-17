@@ -1333,3 +1333,72 @@ html,body{overflow-x:clip}
 body,.platform-section{background:linear-gradient(180deg,#fdf2f6 0%,#eaf4fb 40%,#ffffff 100%)}
 
 .brand-logo{height:44px;width:auto;display:block}.footer .brand-logo{height:56px}.mini-mark,.dash-avatar{object-fit:contain;background:none;padding:0}
+
+/* ===== Exact logo in dashboard ===== */
+.dash-brand .dash-logo{height:30px;width:auto;display:block}
+@media(max-width:760px){.dash-brand .dash-logo{height:22px}}
+
+/* ===== Hero opening: masked line reveal, orbs, light sweep ===== */
+.hero h1 .h1-mask{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .04em .12em;margin-bottom:-.12em;background:none;-webkit-background-clip:border-box;background-clip:border-box;color:inherit}
+.hero h1 .h1-line{display:inline-block;transform-origin:0 100%;background:none;-webkit-background-clip:border-box;background-clip:border-box;color:inherit}
+.hero h1 .h1-line.h1-grad{background:linear-gradient(95deg,#2ec4f1,#6f86ff 30%,#c26be0 55%,#ff4f9a 75%,#ff5a5a,#2ec4f1);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:fxGradShift 7s linear infinite}
+.hero-orbs{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-orbs i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.38;animation:fxOrb 16s ease-in-out infinite alternate}
+.hero-orbs i:nth-child(1){width:340px;height:340px;left:-80px;top:12%;background:#2ec4f1}
+.hero-orbs i:nth-child(2){width:300px;height:300px;right:6%;top:-60px;background:#7a3a93;animation-duration:19s;animation-delay:-4s}
+.hero-orbs i:nth-child(3){width:260px;height:260px;right:28%;bottom:-40px;background:#e5237b;opacity:.26;animation-duration:22s;animation-delay:-8s}
+.hero-orbs i:nth-child(4){width:200px;height:200px;left:38%;top:30%;background:#3b4fa8;opacity:.3;animation-duration:14s;animation-delay:-2s}
+@keyframes fxOrb{0%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,-40px) scale(1.15)}100%{transform:translate(-40px,50px) scale(.9)}}
+.hero-sweep{position:absolute;top:-20%;left:0;width:40%;height:140%;z-index:2;pointer-events:none;background:linear-gradient(100deg,transparent,rgba(46,196,241,.10) 35%,rgba(255,255,255,.22) 50%,rgba(229,35,123,.10) 65%,transparent);transform:skewX(-14deg);mix-blend-mode:screen}
+
+/* ===== Animated gradient headings + heading line ===== */
+.gradient-text{background-size:220% auto!important;animation:fxGradShift 8s linear infinite}
+.gradient-text{background-image:linear-gradient(95deg,#2ec4f1,#3b4fa8 25%,#7a3a93 45%,#e5237b 65%,#ee3333 80%,#2ec4f1)!important}
+@keyframes fxGradShift{to{background-position:220% center}}
+.heading-line{display:block;width:72px;height:3px;margin-top:16px;border-radius:3px;background:var(--brand-gradient);transform-origin:0 50%;box-shadow:0 4px 14px rgba(229,35,123,.35)}
+.section-heading.center .heading-line{margin-left:auto;margin-right:auto;transform-origin:50% 50%}
+
+/* ===== Buttons: shine sweep, ripple, magnetic ===== */
+.button{position:relative;overflow:hidden;isolation:isolate;transition:transform .25s,box-shadow .25s,translate .35s cubic-bezier(.16,1,.3,1)}
+.button::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.42) 50%,transparent 70%);transform:translateX(-130%);animation:fxShine 4.8s ease-in-out infinite;pointer-events:none}
+.button-ghost::after{background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.18) 50%,transparent 70%)}
+@keyframes fxShine{0%,60%{transform:translateX(-130%)}85%,100%{transform:translateX(130%)}}
+.button:hover{box-shadow:0 18px 40px rgba(229,35,123,.32),0 0 0 4px rgba(46,196,241,.14)}
+.fx-ripple{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.55),rgba(255,255,255,0) 70%);transform:scale(0);animation:fxRipple .7s cubic-bezier(.16,1,.3,1) forwards;pointer-events:none;z-index:-1}
+@keyframes fxRipple{to{transform:scale(1);opacity:0}}
+
+/* ===== Dashboard glowing gradient border ===== */
+.platform-section .dashboard::before{content:"";position:absolute;inset:-2px;z-index:-1;border-radius:18px;background:conic-gradient(from var(--fx-angle,0deg),#2ec4f1,#3b4fa8,#7a3a93,#e5237b,#ee3333,#2ec4f1);animation:fxSpin 6s linear infinite;filter:blur(1px)}
+.platform-section .dashboard::after{content:"";position:absolute;inset:18px;z-index:-2;border-radius:30px;background:conic-gradient(from var(--fx-angle,0deg),#2ec4f1,#7a3a93,#e5237b,#2ec4f1);filter:blur(42px);opacity:.35;animation:fxSpin 6s linear infinite}
+@property --fx-angle{syntax:"<angle>";inherits:false;initial-value:0deg}
+@keyframes fxSpin{to{--fx-angle:360deg}}
+.platform-section .dash-stage{isolation:isolate}
+
+/* ===== Tap burst + cursor ring ===== */
+.fx-layer{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}
+.fx-burst{position:absolute;width:0;height:0}
+.fx-burst .fx-ring{position:absolute;left:-22px;top:-22px;width:44px;height:44px;border-radius:50%;border:2px solid #e5237b;box-shadow:0 0 18px rgba(46,196,241,.6),inset 0 0 12px rgba(229,35,123,.4);animation:fxRing .6s cubic-bezier(.16,1,.3,1) forwards}
+.fx-burst b{position:absolute;left:-3.5px;top:-3.5px;width:7px;height:7px;border-radius:50%;animation:fxSpark .75s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes fxRing{from{transform:scale(.2);opacity:1}to{transform:scale(2.4);opacity:0}}
+@keyframes fxSpark{from{transform:translate(0,0) scale(1);opacity:1}to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+.fx-cursor{position:absolute;left:-18px;top:-18px;width:36px;height:36px;will-change:transform}
+.fx-cursor::before{content:"";position:absolute;inset:0;border-radius:50%;border:1.5px solid transparent;background:conic-gradient(from var(--fx-angle,0deg),#2ec4f1,#7a3a93,#e5237b,#ee3333,#2ec4f1) border-box;-webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:fxSpin 3s linear infinite;transition:transform .3s cubic-bezier(.16,1,.3,1),opacity .3s}
+.fx-cursor.hot::before{transform:scale(1.7);background-color:rgba(229,35,123,.08)}
+.fx-cursor.gone::before{opacity:0}
+
+/* ===== Touch press feedback on cards ===== */
+.industry-card,.resource-card,.why-item,.process-step,.module-row,.metric,.faq-item{transition-property:transform,box-shadow,background,border-color,scale;transition-duration:.3s}
+@media(hover:none){
+ .industry-card:active,.resource-card:active,.why-item:active,.process-step:active,.module-row:active,.metric:active{scale:.97}
+ .button:active{scale:.95}
+}
+.why-item:hover .why-icon,.why-item:active .why-icon{animation:fxWiggle .6s ease}
+@keyframes fxWiggle{0%,100%{rotate:0deg}25%{rotate:-12deg}50%{rotate:10deg}75%{rotate:-6deg}}
+
+/* ===== Back-to-top pulse ===== */
+.back-top{background:var(--brand-gradient);color:#fff;border:0;box-shadow:0 10px 26px rgba(229,35,123,.35);animation:fxPulse 2.6s ease-in-out infinite}
+@keyframes fxPulse{0%,100%{box-shadow:0 10px 26px rgba(229,35,123,.35),0 0 0 0 rgba(46,196,241,.45)}50%{box-shadow:0 10px 26px rgba(229,35,123,.35),0 0 0 10px rgba(46,196,241,0)}}
+
+@media(prefers-reduced-motion:reduce){
+ .hero-orbs i,.gradient-text,.hero h1 .h1-line.h1-grad,.button::after,.platform-section .dashboard::before,.platform-section .dashboard::after,.back-top,.fx-cursor::before{animation:none}
+}

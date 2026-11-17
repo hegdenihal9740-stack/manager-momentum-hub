@@ -30,3 +30,4 @@ use the editor.
 <!-- LOVABLE:END -->
 - Scroll and 3D motion use framer-motion helpers in `ManagerSite.tsx` (Reveal, ScrollStage, TiltCard, the sticky `.dash-pin` dashboard) under `MotionConfig reducedMotion="user"`, so motion stays consistent and respects reduced-motion settings.
 - Each module's 3D scene lives in `src/components/site/ModuleScenes.tsx` (one scene per module, lazy-loaded, colours from `modulePalette.ts`); the module workspace (`ModuleWorkspace.tsx`, styled by `src/workspace.css` with `.mw-*` classes) renders through a portal to `document.body` so no section stacking context can clip it.
+- Site-wide tap/cursor effects live in `src/components/site/TouchFX.tsx` (mounted once in `ManagerSite`), and full-screen panels open with `circleReveal()` from `tapOrigin.ts`, so every panel grows from the visitor's tap point the same way.

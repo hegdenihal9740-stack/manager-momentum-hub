@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Search, X, Plus, TrendingUp, Activity, Users, CalendarDays, Mail, Clock3, ChevronDown, Sparkles } from "lucide-react";
 import { modulePalette } from "./modulePalette";
 import logoLight from '@/assets/logo-lockup-light.png.asset.json'
+import { circleReveal } from './tapOrigin'
 
 const ModuleScene = React.lazy(() => import("./ModuleScenes"));
 const ease = [0.16, 1, 0.3, 1];
@@ -108,12 +109,13 @@ export default function ModuleWorkspace({ modules, moduleIndex, onSelect, onClos
   };
 
   const words = hero.title.split(" ");
+  const [reveal] = useState(circleReveal);
   const visibleContacts = contacts.filter((c) => matches(query, c.name, c.company, c.email));
   const ops = records[moduleIndex];
   const opsRows = ops ? ops.rows.filter((r) => matches(query, ...r)) : [];
 
   return createPortal(
-    <motion.div className="mw-overlay" role="presentation" initial={{ opacity: 0 }} animate={{ opacity: 1 }} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+    <motion.div className="mw-overlay" role="presentation" {...reveal} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <motion.div
         ref={shellRef}
         tabIndex={-1}

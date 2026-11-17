@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowUpRight, Check, Plus, Minus, GraduationCap, Rocket, ShoppingBag, Sparkles, TrendingUp, AlertTriangle } from "lucide-react";
 import "../../industry.css";
+import { circleReveal } from "./tapOrigin";
 
 const IndustryScene = React.lazy(() => import("./IndustryScene"));
 const ease = [0.16, 1, 0.3, 1];
@@ -80,7 +81,8 @@ export default function IndustryWorkspace({ kind, onSelect, onClose }) {
   useEffect(() => setTab(0), [kind]);
   useEffect(() => { const k = e => e.key === "Escape" && onClose(); document.addEventListener("keydown", k); const o = document.body.style.overflow; document.body.style.overflow = "hidden"; return () => { document.removeEventListener("keydown", k); document.body.style.overflow = o; }; }, [onClose]);
   const W = widgets[kind][tab];
-  return createPortal(<motion.div className={`iw-overlay iw-${kind}`} style={{ "--a": s.colors[0], "--b": s.colors[1], "--c": s.colors[2] }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} role="dialog" aria-modal="true" aria-label={`${s.name} solution`}>
+  const [reveal] = useState(circleReveal);
+  return createPortal(<motion.div className={`iw-overlay iw-${kind}`} style={{ "--a": s.colors[0], "--b": s.colors[1], "--c": s.colors[2] }} {...reveal} role="dialog" aria-modal="true" aria-label={`${s.name} solution`}>
     <div className="iw-aurora" aria-hidden="true"><i /><i /><i /></div>
     <motion.div className="iw-shell" initial={{ opacity: 0, y: 40, rotateX: 12, scale: .96 }} animate={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }} exit={{ opacity: 0, y: 30, scale: .97 }} transition={{ duration: .6, ease }} style={{ transformPerspective: 1400 }}>
       <header className="iw-top"><div className="iw-switch">{Object.entries(industrySuites).map(([k, v]) => { const I = v.icon; return <button key={k} className={k === kind ? "on" : ""} onClick={() => onSelect(k)}>{k === kind && <motion.span layoutId="iw-pill" className="iw-pill" />}<I size={15} /><span>{v.name}</span></button>; })}</div>
