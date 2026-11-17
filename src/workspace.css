@@ -231,3 +231,5 @@
 @media(prefers-reduced-motion:reduce){
  .mw-bg i,.mw-stage-floor,.mw-chip,.mw-foot-orb,.mw-kicker em i,.mw-stage-label i{animation:none}
 }
+
+.mw-brand-logo{height:34px;width:auto;display:block}.mw-brand-tag{font:9px 'DM Mono',monospace;letter-spacing:2px;color:var(--mw-faint)}@media(max-width:640px){.mw-brand-logo{height:28px}.mw-brand-tag{display:none}}

@@ -32,3 +32,6 @@
 .il-bar i{display:block;height:100%;transform-origin:0 50%;background:linear-gradient(90deg,#8fa2ff,#f28d8d,#d85959)}
 @media(max-width:520px){.il-constellation{transform:scale(.78);margin:-30px 0 -10px}}
 @media(prefers-reduced-motion:reduce){.il-beams i,.il-core-ring{animation:none}}
+
+.il-core{background:#ffffff;box-shadow:0 20px 60px rgba(122,58,147,.35),inset 0 1px #fff}.il-mark{display:grid;place-items:center}.il-mark img{width:72px;height:72px;display:block}.il-logo{height:clamp(64px,10vw,96px);width:auto;display:block}.il-word{overflow:visible}
+.il-mark{background:none!important}

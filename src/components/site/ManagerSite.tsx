@@ -7,6 +7,8 @@ const ModuleScene = React.lazy(() => import('./ModuleScenes'))
 import ModuleWorkspace from './ModuleWorkspace'
 import IndustryWorkspace from './IndustryWorkspace'
 import IntroLoader from './IntroLoader'
+import logoLight from '@/assets/logo-lockup-light.png.asset.json'
+import logoMark from '@/assets/logo-mark.png.asset.json'
 function ClientModuleScene({index,paused}){const ref=React.useRef(null);const inView=useInView(ref,{margin:'120px'});const [mounted,setMounted]=useState(false);React.useEffect(()=>setMounted(true),[]);return <div ref={ref} className="mf-scene" aria-hidden="true">{mounted&&<React.Suspense fallback={null}><ModuleScene index={index} paused={paused||!inView} sparkles={false} distance={5.8} className="mf-canvas"/></React.Suspense>}</div>}
 function ClientOrbitalScene(){const ref=React.useRef(null);const inView=useInView(ref,{margin:'120px'});const [mounted,setMounted]=useState(false);React.useEffect(()=>setMounted(true),[]);return <div ref={ref} className="orbital-canvas" aria-hidden="true">{mounted&&<React.Suspense fallback={null}><OrbitalScene paused={!inView}/></React.Suspense>}</div>}
 
@@ -57,7 +59,7 @@ function TiltCard({children,className='',max=8}){
  const reset=()=>{rx.set(0);ry.set(0)}
  return <motion.div className={`tilt-wrap ${className}`} onPointerMove={onMove} onPointerLeave={reset} style={{rotateX:sx,rotateY:sy,transformPerspective:1000}}>{children}</motion.div>
 }
-function Logo(){return <a href="#home" className="brand"><span className="brand-mark">M</span><span>the<span className="brand-light">manager</span></span></a>}
+function Logo(){return <a href="#home" className="brand" aria-label="DevOps Manager home"><img className="brand-logo" src={logoLight.url} alt="DevOps Manager" width="747" height="240"/></a>}
 function Header(){
  const [open,setOpen]=useState(false),[scrolled,setScrolled]=useState(false)
  React.useEffect(()=>{const f=()=>setScrolled(window.scrollY>20);window.addEventListener('scroll',f);return()=>window.removeEventListener('scroll',f)},[])
@@ -89,12 +91,12 @@ function DashboardMock({activeTab,onTab,progress}){
  const [period,setPeriod]=useState('Last 30 days')
  const current=dashTabs[activeTab]
  return <div className="dashboard">
-  <div className="dash-top"><div className="dash-brand"><span className="mini-mark">M</span><b>themanager.app</b></div>
+  <div className="dash-top"><div className="dash-brand"><img className="mini-mark" src={logoMark.url} alt="" width="22" height="22"/><b>themanager.app</b></div>
    <div className="dash-steps" aria-live="polite"><span className="dash-step-count">0{activeTab+1}<i>/ 0{dashTabs.length}</i></span><AnimatePresence mode="wait" initial={false}><motion.b key={activeTab} initial={{y:10,opacity:0,rotateX:-80}} animate={{y:0,opacity:1,rotateX:0}} exit={{y:-10,opacity:0,rotateX:80}} transition={{duration:.35,ease}}>{current.label}</motion.b></AnimatePresence></div>
    <span className="dash-live"><b/> Live workspace</span>
    <motion.div className="dash-progress" style={{scaleX:progress}}/>
   </div>
-  <div className="dash-body"><aside className="dash-side" aria-label="Workspace sections"><div className="dash-avatar">M</div>{dashTabs.map(({icon:Icon,label},i)=><button type="button" className={`dash-tab ${i===activeTab?'active':''}`} key={label} onClick={()=>onTab(i)} aria-label={label} aria-pressed={i===activeTab} title={label}>{i===activeTab&&<motion.span layoutId="dash-tab-pill" className="dash-tab-pill" transition={{type:'spring',stiffness:420,damping:32}}/>}<Icon size={15}/></button>)}</aside>
+  <div className="dash-body"><aside className="dash-side" aria-label="Workspace sections"><img className="dash-avatar" src={logoMark.url} alt="" width="27" height="27"/>{dashTabs.map(({icon:Icon,label},i)=><button type="button" className={`dash-tab ${i===activeTab?'active':''}`} key={label} onClick={()=>onTab(i)} aria-label={label} aria-pressed={i===activeTab} title={label}>{i===activeTab&&<motion.span layoutId="dash-tab-pill" className="dash-tab-pill" transition={{type:'spring',stiffness:420,damping:32}}/>}<Icon size={15}/></button>)}</aside>
    <div className="dash-main"><AnimatePresence mode="wait" initial={false}><motion.div key={activeTab} className="dash-scene" variants={sceneV} initial="hidden" animate="show" exit="exit">
     <motion.div className="dash-welcome" variants={sceneItem}><div><small>{current.eyebrow}</small><h3>{current.greeting} <span>✦</span></h3><p>{current.copy}</p></div><label className="period-select"><span className="sr-only">Reporting period</span><select value={period} onChange={event=>setPeriod(event.target.value)}><option>Last 7 days</option><option>Last 30 days</option><option>Last 90 days</option></select></label></motion.div>
     <div className="metric-grid">{current.metrics.map(([label,value,change],i)=><motion.div className="metric" key={label} variants={metricV} custom={i} style={{transformPerspective:600,transformOrigin:'50% 0%'}}><small>{label}</small><strong>{value}</strong><em>↗ {change} <span>vs last month</span></em></motion.div>)}</div>

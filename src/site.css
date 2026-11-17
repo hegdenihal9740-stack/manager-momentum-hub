@@ -1325,9 +1325,11 @@ html,body{overflow-x:clip}
 :root{--brand-gradient:linear-gradient(110deg,#2ec4f1 0%,#3b4fa8 30%,#7a3a93 55%,#e5237b 78%,#ee3333 100%);--ink:#232740;--muted:#4a5163;--line:#e3e8f0}
 .button{background:var(--brand-gradient);color:#fff}.button:hover{box-shadow:0 14px 32px rgba(59,79,168,.3)}
 .button-ghost{background:#ffffff10;color:#eaf4fb;border-color:#ffffff33}
-.brand-mark,.il-mark{background:var(--brand-gradient);color:#fff}
+.brand-mark{background:var(--brand-gradient);color:#fff}
 .gradient-text,.hero h1 span{background:linear-gradient(95deg,#2ec4f1,#3b4fa8 35%,#7a3a93 65%,#ee3333);background-clip:text;-webkit-background-clip:text;color:transparent}
 .scroll-progress{background:var(--brand-gradient)}
 .hero{background:radial-gradient(circle at 78% 32%,rgba(122,58,147,.35),transparent 30%),radial-gradient(circle at 20% 100%,rgba(46,196,241,.14),transparent 34%),linear-gradient(135deg,#1b2140 0%,#1d2448 50%,#161b36 100%)}
 .ticker,.header.scrolled{background-color:#1b2140}
 body,.platform-section{background:linear-gradient(180deg,#fdf2f6 0%,#eaf4fb 40%,#ffffff 100%)}
+
+.brand-logo{height:44px;width:auto;display:block}.footer .brand-logo{height:56px}.mini-mark,.dash-avatar{object-fit:contain;background:none;padding:0}
