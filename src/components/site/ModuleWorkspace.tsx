@@ -6,6 +6,7 @@ import { ArrowRight, ArrowUpRight, Search, X, Plus, TrendingUp, Activity, Users,
 import { modulePalette } from "./modulePalette";
 import logoLight from '@/assets/logo-lockup-light.png.asset.json'
 import { circleReveal } from './tapOrigin'
+import SceneBoundary from './SceneBoundary'
 
 const ModuleScene = React.lazy(() => import("./ModuleScenes"));
 const ease = [0.16, 1, 0.3, 1];
@@ -181,9 +182,9 @@ export default function ModuleWorkspace({ modules, moduleIndex, onSelect, onClos
 
               <div className="mw-stage" aria-hidden="true">
                 <div className="mw-stage-floor" />
-                <React.Suspense fallback={<SceneFallback />}>
+                <SceneBoundary fallback={<SceneFallback />}><React.Suspense fallback={<SceneFallback />}>
                   <ModuleScene index={moduleIndex} paused={reduced} className="mw-canvas" />
-                </React.Suspense>
+                </React.Suspense></SceneBoundary>
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div key={moduleIndex} className="mw-chips" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                     {hero.chips.map(([k, v], i) => (

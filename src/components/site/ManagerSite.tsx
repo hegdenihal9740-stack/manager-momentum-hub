@@ -8,14 +8,15 @@ const AboutScene = React.lazy(() => import('./AboutScene'))
 import ModuleWorkspace from './ModuleWorkspace'
 import IndustryWorkspace from './IndustryWorkspace'
 import IntroLoader from './IntroLoader'
+import SceneBoundary from './SceneBoundary'
 import logoLight from '@/assets/logo-lockup-light.png.asset.json'
 import logoMark from '@/assets/logo-mark.png.asset.json'
 import logoDark from '@/assets/logo-lockup.png.asset.json'
 import TouchFX from './TouchFX'
 import { circleReveal } from './tapOrigin'
-function ClientModuleScene({index,paused}){const ref=React.useRef(null);const inView=useInView(ref,{margin:'120px'});const [mounted,setMounted]=useState(false);React.useEffect(()=>setMounted(true),[]);return <div ref={ref} className="mf-scene" aria-hidden="true">{mounted&&<React.Suspense fallback={null}><ModuleScene index={index} paused={paused||!inView} sparkles={false} distance={5.8} className="mf-canvas"/></React.Suspense>}</div>}
-function ClientAboutScene(){const ref=React.useRef(null);const inView=useInView(ref,{margin:'120px'});const [mounted,setMounted]=useState(false);React.useEffect(()=>setMounted(true),[]);return <div ref={ref} className="about-canvas" aria-hidden="true">{mounted&&inView&&<React.Suspense fallback={null}><AboutScene/></React.Suspense>}</div>}
-function ClientOrbitalScene({ready=true}){const ref=React.useRef(null);const inView=useInView(ref,{margin:'120px'});const [mounted,setMounted]=useState(false);React.useEffect(()=>setMounted(true),[]);return <div ref={ref} className="orbital-canvas" aria-hidden="true">{mounted&&<React.Suspense fallback={null}><OrbitalScene paused={!inView} ready={ready}/></React.Suspense>}</div>}
+function ClientModuleScene({index,paused}){const ref=React.useRef(null);const inView=useInView(ref,{margin:'120px'});const [mounted,setMounted]=useState(false);React.useEffect(()=>setMounted(true),[]);return <div ref={ref} className="mf-scene" aria-hidden="true">{mounted&&<SceneBoundary><React.Suspense fallback={null}><ModuleScene index={index} paused={paused||!inView} sparkles={false} distance={5.8} className="mf-canvas"/></React.Suspense></SceneBoundary>}</div>}
+function ClientAboutScene(){const ref=React.useRef(null);const inView=useInView(ref,{margin:'120px'});const [mounted,setMounted]=useState(false);React.useEffect(()=>setMounted(true),[]);return <div ref={ref} className="about-canvas" aria-hidden="true">{mounted&&<SceneBoundary><React.Suspense fallback={null}><AboutScene paused={!inView}/></React.Suspense></SceneBoundary>}</div>}
+function ClientOrbitalScene({ready=true}){const ref=React.useRef(null);const inView=useInView(ref,{margin:'120px'});const [mounted,setMounted]=useState(false);React.useEffect(()=>setMounted(true),[]);return <div ref={ref} className="orbital-canvas" aria-hidden="true">{mounted&&<SceneBoundary><React.Suspense fallback={null}><OrbitalScene paused={!inView} ready={ready}/></React.Suspense></SceneBoundary>}</div>}
 
 const modules = [
   {n:'01',name:'Sales & CRM',desc:'Keep sales activity and customer relationships connected in one shared workspace.',icon:Workflow,tag:'Customer growth',color:'blue'},

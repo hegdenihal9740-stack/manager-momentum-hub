@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowUpRight, Check, Plus, Minus, GraduationCap, Rocket, ShoppingBag, Sparkles, TrendingUp, AlertTriangle } from "lucide-react";
 import "../../industry.css";
 import { circleReveal } from "./tapOrigin";
+import SceneBoundary from "./SceneBoundary";
 
 const IndustryScene = React.lazy(() => import("./IndustryScene"));
 const ease = [0.16, 1, 0.3, 1];
@@ -91,7 +92,7 @@ export default function IndustryWorkspace({ kind, onSelect, onClose }) {
         <section className="iw-hero"><div className="iw-copy"><span className="iw-kicker"><Sparkles size={13} /> {s.kicker}</span><h2>{s.title}</h2><p>{s.summary}</p>
           <div className="iw-stats">{s.stats.map(([l, v, d], i) => <motion.div key={l} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .2 + i * .08 }}><small>{l}</small><b>{v}</b><em><TrendingUp size={11} /> {d}</em></motion.div>)}</div>
           <a className="iw-cta" href="#contact" onClick={onClose}>Book a free demo <ArrowUpRight size={16} /></a></div>
-          <div className="iw-scene"><React.Suspense fallback={null}><IndustryScene kind={kind} colors={s.colors} /></React.Suspense></div></section>
+          <div className="iw-scene"><SceneBoundary><React.Suspense fallback={null}><IndustryScene kind={kind} colors={s.colors} /></React.Suspense></SceneBoundary></div></section>
         <section className="iw-console"><div className="iw-tabs">{s.tabs.map((t, i) => <button key={t} className={tab === i ? "on" : ""} onClick={() => setTab(i)}><span>{t}</span></button>)}<span className="iw-sample">Sample data · try it</span></div>
           <AnimatePresence mode="wait"><motion.div key={tab} className="iw-panel" initial={{ opacity: 0, y: 14, filter: "blur(4px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} exit={{ opacity: 0, y: -10 }} transition={{ duration: .35, ease }}><W /></motion.div></AnimatePresence></section>
       </motion.div></AnimatePresence>
