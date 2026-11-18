@@ -1497,3 +1497,7 @@ body,.platform-section{background:linear-gradient(180deg,#fdf2f6 0%,#eaf4fb 40%,
 @media(max-width:520px){
  .about-tag{padding:7px 11px;font-size:11px}
 }
+
+/* Dashboard bar chart in the brand theme: one cyan→blue→purple→pink→red sweep across all bars */
+.dashboard .chart-bars i{background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0) 55%),var(--brand-gradient);background-size:100% 100%,2400% 100%;background-position:0 0,var(--p,0%) 0;opacity:.92;box-shadow:0 6px 14px -8px rgba(122,58,147,.55)}
+.dashboard .chart-bars i:nth-child(3n){opacity:.55}

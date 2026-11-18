@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BarChart3, Boxes, Workflow, Users, Wallet, Truck, FileText, ShieldCheck } from "lucide-react";
 import { modulePalette } from "./modulePalette";
 import "../../intro.css";
-import logoMark from "@/assets/logo-mark.png.asset.json";
-import logoLight from "@/assets/logo-lockup-light.png.asset.json";
+import logoMark from "@/assets/logo-mark.png";
+import logoLight from "@/assets/logo-lockup-light.png";
 
 const ease = [0.16, 1, 0.3, 1];
 const nodes = [
@@ -85,12 +85,12 @@ export default function IntroLoader({ onDone }) {
           <motion.div className="il-core" initial={{ scale: 0.92, rotate: -16 }} animate={{ scale: ready ? 1.18 : 1, rotate: 0 }} transition={{ type: "spring", stiffness: 140, damping: 13 }}>
             <span className="il-core-ring" />
             <span className="il-core-ring il-core-ring-2" />
-            <motion.b className="il-mark" animate={ready ? { rotateY: 360, scale: 1.08 } : { rotateY: 0, scale: 1 }} transition={{ duration: 0.5, ease }}><img src={logoMark.url} alt="" width="72" height="72" /></motion.b>
+            <motion.b className="il-mark" animate={ready ? { rotateY: 360, scale: 1.08 } : { rotateY: 0, scale: 1 }} transition={{ duration: 0.5, ease }}><img src={logoMark} alt="" width="72" height="72" /></motion.b>
           </motion.div>
           {ready && <motion.span className="il-burst" initial={{ scale: 0.2, opacity: 0.9 }} animate={{ scale: 3.2, opacity: 0 }} transition={{ duration: 0.8, ease }} />}
         </div>
 
-        <motion.h1 className="il-word" initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.35, duration: 0.7, ease }}><img className="il-logo" src={logoLight.url} alt="DevOps Manager" width="747" height="240" /></motion.h1>
+        <motion.h1 className="il-word" initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.35, duration: 0.7, ease }}><img className="il-logo" src={logoLight} alt="DevOps Manager" width="747" height="240" /></motion.h1>
         <motion.small className="il-sub" initial={{ opacity: 0, letterSpacing: "0.1em" }} animate={{ opacity: 1, letterSpacing: "0.42em" }} transition={{ delay: 0.8, duration: 1.2, ease }}>MODERN BUSINESS MANAGEMENT SUITE</motion.small>
 
         <div className="il-status">

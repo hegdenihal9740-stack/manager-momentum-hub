@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Search, X, Plus, TrendingUp, Activity, Users, CalendarDays, Mail, Clock3, ChevronDown, Sparkles } from "lucide-react";
 import { modulePalette } from "./modulePalette";
-import logoLight from '@/assets/logo-lockup-light.png.asset.json'
+import logoLight from '@/assets/logo-lockup-light.png'
 import { circleReveal } from './tapOrigin'
 import SceneBoundary from './SceneBoundary'
 
@@ -133,7 +133,7 @@ export default function ModuleWorkspace({ modules, moduleIndex, onSelect, onClos
         <div className="mw-bg" aria-hidden="true"><i /><i /><i /><span /></div>
 
         <header className="mw-top">
-          <a href="#home" className="mw-brand" onClick={onClose}><img className="mw-brand-logo" src={logoLight.url} alt="DevOps Manager" width="747" height="240"/><small className="mw-brand-tag">WORKSPACE</small></a>
+          <a href="#home" className="mw-brand" onClick={onClose}><img className="mw-brand-logo" src={logoLight} alt="DevOps Manager" width="747" height="240"/><small className="mw-brand-tag">WORKSPACE</small></a>
           <div className="mw-crumb"><span>Platform</span><ChevronDown size={12} className="mw-crumb-sep" /><AnimatePresence mode="wait" initial={false}><motion.b key={moduleIndex} initial={{ y: 10, opacity: 0, rotateX: -70 }} animate={{ y: 0, opacity: 1, rotateX: 0 }} exit={{ y: -10, opacity: 0, rotateX: 70 }} transition={{ duration: 0.3, ease }}>{mod.name}</motion.b></AnimatePresence></div>
           <div className="mw-top-actions">
             <label className="mw-search"><Search size={15} /><input aria-label="Search module content" placeholder={isCRM ? "Search deals or contacts" : "Search records"} value={query} onChange={(e) => setQuery(e.target.value)} /></label>
