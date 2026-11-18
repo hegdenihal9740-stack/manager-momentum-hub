@@ -94,8 +94,21 @@ const sceneV={hidden:{},show:{transition:{staggerChildren:.06}},exit:{opacity:0,
 const sceneItem={hidden:{opacity:0,y:18,filter:'blur(6px)'},show:{opacity:1,y:0,filter:'blur(0px)',transition:{duration:.6,ease}}}
 const metricV={hidden:{opacity:0,rotateX:-75,y:20},show:i=>({opacity:1,rotateX:0,y:0,transition:{type:'spring',stiffness:260,damping:20,delay:.08+i*.07}})}
 const barV={hidden:{scaleY:0},show:i=>({scaleY:1,transition:{duration:.7,ease:[.34,1.56,.64,1],delay:.15+i*.018}})}
+function CountUp({value}){
+ const m=String(value).match(/^([^\d]*)([\d,]*\.?\d+)(.*)$/)
+ const reduce=useReducedMotion()
+ const ref=React.useRef(null)
+ const inView=useInView(ref,{once:true,amount:.6})
+ const [n,setN]=useState(0)
+ React.useEffect(()=>{if(!m||reduce||!inView)return;const target=parseFloat(m[2].replace(/,/g,''));let raf,start;const step=ts=>{if(start==null)start=ts;const p=Math.min(1,(ts-start)/1200);setN(target*(1-Math.pow(1-p,3)));if(p<1)raf=requestAnimationFrame(step)};raf=requestAnimationFrame(step);return()=>cancelAnimationFrame(raf)},[value,reduce,inView])
+ if(!m||reduce)return <span ref={ref}>{value}</span>
+ const dec=(m[2].split('.')[1]||'').length
+ return <span ref={ref}>{m[1]+n.toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec,useGrouping:m[2].includes(',')})+m[3]}</span>
+}
 function DashboardMock({activeTab,onTab,progress}){
  const [period,setPeriod]=useState('Last 30 days')
+ const sideRef=React.useRef(null)
+ const sideSeen=useInView(sideRef,{once:true,amount:.4})
  const current=dashTabs[activeTab]
  return <div className="dashboard">
   <div className="dash-top"><div className="dash-brand"><img className="dash-logo" src={logoDark} alt="DevOps Manager" width="747" height="240"/></div>
@@ -103,10 +116,10 @@ function DashboardMock({activeTab,onTab,progress}){
    <span className="dash-live"><b/> Live workspace</span>
    <motion.div className="dash-progress" style={{scaleX:progress}}/>
   </div>
-  <div className="dash-body"><aside className="dash-side" aria-label="Workspace sections"><img className="dash-avatar" src={logoMark} alt="" width="27" height="27"/>{dashTabs.map(({icon:Icon,label},i)=><button type="button" className={`dash-tab ${i===activeTab?'active':''}`} key={label} onClick={()=>onTab(i)} aria-label={label} aria-pressed={i===activeTab} title={label}>{i===activeTab&&<motion.span layoutId="dash-tab-pill" className="dash-tab-pill" transition={{type:'spring',stiffness:420,damping:32}}/>}<Icon size={15}/></button>)}</aside>
+  <div className="dash-body"><aside ref={sideRef} className={`dash-side ${sideSeen?'is-in':''}`} aria-label="Workspace sections"><img className="dash-avatar" src={logoMark} alt="" width="27" height="27"/>{dashTabs.map(({icon:Icon,label},i)=><button type="button" className={`dash-tab ${i===activeTab?'active':''}`} style={{'--i':i+1}} key={label} onClick={()=>onTab(i)} aria-label={label} aria-pressed={i===activeTab} title={label}>{i===activeTab&&<motion.span layoutId="dash-tab-pill" className="dash-tab-pill" transition={{type:'spring',stiffness:420,damping:32}}/>}<Icon size={15}/></button>)}</aside>
    <div className="dash-main"><AnimatePresence mode="wait" initial={false}><motion.div key={activeTab} className="dash-scene" variants={sceneV} initial="hidden" animate="show" exit="exit">
     <motion.div className="dash-welcome" variants={sceneItem}><div><small>{current.eyebrow}</small><h3>{current.greeting} <span>✦</span></h3><p>{current.copy}</p></div><label className="period-select"><span className="sr-only">Reporting period</span><select value={period} onChange={event=>setPeriod(event.target.value)}><option>Last 7 days</option><option>Last 30 days</option><option>Last 90 days</option></select></label></motion.div>
-    <div className="metric-grid">{current.metrics.map(([label,value,change],i)=><motion.div className="metric" key={label} variants={metricV} custom={i} style={{transformPerspective:600,transformOrigin:'50% 0%'}}><small>{label}</small><strong>{value}</strong><em>↗ {change} <span>vs last month</span></em></motion.div>)}</div>
+    <div className="metric-grid">{current.metrics.map(([label,value,change],i)=><motion.div className="metric" key={label} variants={metricV} custom={i} style={{transformPerspective:600,transformOrigin:'50% 0%'}}><small>{label}</small><strong><CountUp value={value}/></strong><em>↗ {change} <span>vs last month</span></em></motion.div>)}</div>
     <motion.div className="dash-chart" variants={sceneItem}><div className="chart-head"><b>{current.chart}</b><small>{current.chartMeta}</small></div><div className="chart-bars">{current.bars.map((h,i)=><motion.i key={i} variants={barV} custom={i} style={{height:`${h}%`,transformOrigin:'50% 100%','--p':`${i/(current.bars.length-1)*100}%`}}/>)}</div><div className="chart-labels"><span>OCT 18</span><span>OCT 25</span><span>NOV 01</span><span>NOV 08</span><span>NOV 16</span></div></motion.div>
    </motion.div></AnimatePresence></div>
   </div>
